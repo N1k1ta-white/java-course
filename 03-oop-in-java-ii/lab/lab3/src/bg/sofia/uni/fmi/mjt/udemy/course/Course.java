@@ -105,7 +105,12 @@ public class Course implements Purchasable, Completable {
 
     @Override
     public boolean isCompleted() {
-        return getCompletionPercentage() >= 100;
+        for (Resource elem : content) {
+            if (!elem.isCompleted()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

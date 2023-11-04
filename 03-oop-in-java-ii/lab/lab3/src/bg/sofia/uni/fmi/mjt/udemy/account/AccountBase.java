@@ -45,8 +45,13 @@ public abstract class AccountBase implements Account {
             CourseAlreadyPurchasedException, MaxCourseCapacityReachedException {
         if (balance < course.getPrice())
             throw new InsufficientBalanceException();
-        if (course.isPurchased())
-            throw new CourseAlreadyPurchasedException();
+        for (int i = 0; i < countCourses; i++) {
+            if (course.hashCode() == courses[i].hashCode()) {
+                if (course.equals(courses[i])) {
+                    throw new CourseAlreadyPurchasedException();
+                }
+            }
+        }
         if (countCourses >= 100)
             throw new MaxCourseCapacityReachedException();
         balance = balance - (course.getPrice() - ((course.getPrice() / 100) * type.getDiscount() * 100));
@@ -57,7 +62,16 @@ public abstract class AccountBase implements Account {
     @Override
     public void completeResourcesFromCourse(Course course, Resource[] resourcesToComplete)
             throws CourseNotPurchasedException, ResourceNotFoundException {
-        if (!course.isPurchased())
+        boolean purchased = false;
+        for (int i = 0; i < countCourses; i++) {
+            if (course.hashCode() == courses[i].hashCode()) {
+                if (course.equals(courses[i])) {
+                    purchased = true;
+                    break;
+                }
+            }
+        }
+        if (!purchased)
             throw new CourseNotPurchasedException();
         for (Resource resource : resourcesToComplete)
             course.completeResource(resource);
@@ -66,7 +80,16 @@ public abstract class AccountBase implements Account {
     @Override
     public void completeCourse(Course course, double grade) throws CourseNotPurchasedException,
             CourseNotCompletedException {
-        if (!course.isPurchased())
+        boolean purchased = false;
+        for (int i = 0; i < countCourses; i++) {
+            if (course.hashCode() == courses[i].hashCode()) {
+                if (course.equals(courses[i])) {
+                    purchased = true;
+                    break;
+                }
+            }
+        }
+        if (!purchased)
             throw new CourseNotPurchasedException();
         if (!course.isCompleted())
             throw new CourseNotCompletedException();
