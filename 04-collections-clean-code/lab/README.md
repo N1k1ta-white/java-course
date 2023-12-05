@@ -81,6 +81,7 @@ public interface GymAPI {
 
     /**
      * Returns an unmodifiable Map representing each day and the names of the members that do this exercise on it.
+     * The map should contain only the days on which at least one member is doing this exercise.
      *
      * @param exerciseName - the name of the exercise being done
      * @throws IllegalArgumentException if exerciseName is null or empty
@@ -170,7 +171,7 @@ public interface GymMember {
      *
      * @param day       - DayOfWeek to train the exercise.
      * @param exercises - list of the trained Exercises
-     * @throws DayOffException          if the Workout on this day is null or the exercises list is empty.
+     * @throws DayOffException          if the Workout on this day is null
      * @throws IllegalArgumentException if day is null or exercises is null or empty
      */
     void addExercises(DayOfWeek day, List<Exercise> exercises);
@@ -199,7 +200,7 @@ public enum Gender {
 public record Address(double longitude, double latitude)
 ```
 
-В него имплементирайте метод, който връща разстоянието до друг адрес и има следнат сигнатура:
+В него имплементирайте метод, който връща разстоянието до друг адрес (за простота ще приемем, че това е разстоянието в Евклидовата равнина) и има следнат сигнатура:
 
 ```java
 public double getDistanceTo(Address other)
@@ -250,3 +251,4 @@ src
 ### :warning: Забележки
 
 - Не променяйте по никакъв начин интерфейсите, дадени в условието.
+- Използването на [Java Stream API](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/package-summary.html) и/или [lambdas](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) **не е разрешено**. Задачата трябва да се реши с помощта на знанията от курса до момента.
